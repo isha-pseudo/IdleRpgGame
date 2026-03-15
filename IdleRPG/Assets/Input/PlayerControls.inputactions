@@ -25,13 +25,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Look",
-                    "type": "Value",
-                    "id": "fefe0d40-df87-47db-87b7-39bfd6d8bc0d",
-                    "expectedControlType": "Vector2",
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "1e709a8a-1114-49d4-ae70-2bac22d02c84",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -125,23 +125,23 @@
                 },
                 {
                     "name": "",
-                    "id": "f72220f3-10b8-47fe-a06e-863ef5f35356",
-                    "path": "<Mouse>/delta",
+                    "id": "3776c62d-f5c3-4098-9b5b-5b8dc9545abb",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Look",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "96dbcd9e-a209-4759-aca5-6e2f892e82dc",
-                    "path": "<Gamepad>/rightStick",
+                    "id": "1e4bfd7d-3c40-4024-bca8-7442545d782f",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Look",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
