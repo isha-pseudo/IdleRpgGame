@@ -1,15 +1,17 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using UnityEngine.TextCore.Text;
 
 public class PlayerCombat : MonoBehaviour
 {
 
     // references //
     private PlayerData data;
-    private CharacterPhysics physics;
+    private CharacterPhysics characterPhysics;
     private CharacterStateMachine stateMachine;
     private Transform playerVisual;
+    private Transform camTransform;
 
     [System.Serializable] public struct ComboStep
     {
@@ -17,6 +19,7 @@ public class PlayerCombat : MonoBehaviour
         public Vector3 hitboxOffset;
         public float damageMultiplier;
         public float forceMultiplier;
+        public float vereticalLaunch;
     }
     [SerializeField]private ComboStep[] comboSteps = new ComboStep[3];
 
@@ -29,20 +32,21 @@ public class PlayerCombat : MonoBehaviour
     void Start()
     {
         data = GetComponent<PlayerData>();
-        physics = GetComponent<CharacterPhysics>();
+        characterPhysics = GetComponent<CharacterPhysics>();
         stateMachine = GetComponent<CharacterStateMachine>();
         playerVisual = transform.Find("PlayerVisual").transform;
+        camTransform = Camera.main.transform;
 
         if (data == null) Debug.Log("Player data missing from player combat");
-        if (physics == null) Debug.Log("Character physics missing from player combat");
+        if (characterPhysics == null) Debug.Log("Character physics missing from player combat");
         if (stateMachine == null) Debug.Log("Character state machine missing from player combat");
         if  (playerVisual == null) Debug.Log("Player visual missing from player combat");
     
         // Combo attacks //
         
-        comboSteps[0] = new ComboStep{hitboxSize = new Vector3(1.2f, 1.2f, 1.0f), hitboxOffset = new Vector3(0, 0f, 1.5f), damageMultiplier = 1.0f, forceMultiplier = 1.0f};
-        comboSteps[1] = new ComboStep{hitboxSize = new Vector3(1.2f, 1.2f, 1.0f), hitboxOffset = new Vector3(0, 0f, 1.5f), damageMultiplier = 1.0f, forceMultiplier = 1.0f};
-        comboSteps[2] = new ComboStep{hitboxSize = new Vector3(1.2f, 1.2f, 1.0f), hitboxOffset = new Vector3(0, 0f, 1.5f), damageMultiplier = 1.0f, forceMultiplier = 1.0f};
+        comboSteps[0] = new ComboStep{hitboxSize = new Vector3(1.2f, 1.2f, 1.0f), hitboxOffset = new Vector3(0, 0f, 1.5f), damageMultiplier = 1.0f, forceMultiplier = 1.0f, vereticalLaunch = 1f};
+        comboSteps[1] = new ComboStep{hitboxSize = new Vector3(1.2f, 1.2f, 1.0f), hitboxOffset = new Vector3(0, 0f, 1.5f), damageMultiplier = 1.0f, forceMultiplier = 1.0f, vereticalLaunch = 1f};
+        comboSteps[2] = new ComboStep{hitboxSize = new Vector3(1.2f, 1.2f, 1.0f), hitboxOffset = new Vector3(0, 0f, 1.5f), damageMultiplier = 1.0f, forceMultiplier = 1.0f, vereticalLaunch = 1f};
 
     
     
@@ -66,6 +70,10 @@ public class PlayerCombat : MonoBehaviour
         if (context.performed)
         {
             currentCombo++;
+            if (currentCombo > comboSteps.Length)
+            {
+                currentCombo = 1;
+            }
             comboTimer = comboResetTime;
 
             Debug.Log("combo step" + currentCombo + "!");
@@ -94,7 +102,12 @@ public class PlayerCombat : MonoBehaviour
             EnemyHandler enemy = hit.GetComponent<EnemyHandler>();
             if (enemy != null)
             {
-                Vector3 knockbackDir = (hit.transform.position - hitCenter).normalized;
+                Vector3 camForward = Camera.main.transform.forward;
+                camForward.y = 0f;
+                camForward.Normalize();
+
+                // Vector3 direction = hit.transform.position - transform.position;
+                Vector3 knockbackDir = (camForward + Vector3.up * step.vereticalLaunch).normalized;
 
                 enemy.TakeDamage(finalDamage,finalForce, knockbackDir);
                 Debug.Log("Hit enemy with combo step " + currentCombo + " for " + finalDamage + " damage!");

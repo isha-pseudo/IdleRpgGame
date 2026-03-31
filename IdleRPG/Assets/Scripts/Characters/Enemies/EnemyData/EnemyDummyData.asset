@@ -13,5 +13,10 @@ MonoBehaviour:
   m_Name: EnemyDummyData
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDataSO
   baseHealth: 10
-  baseWeight: 1
+  baseWeight: 0
   respawnDelay: 3
+  baseDefence: 0
+  baseExp: 1
+  possibleDrops:
+  - itemName: Hay
+    dropChance: 0.5

@@ -20,11 +20,6 @@ public class CharacterPhysics : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        
-    }
-
     public void ApplyMovement(Vector3 horizontalMovement)
     {
 
@@ -40,6 +35,7 @@ public class CharacterPhysics : MonoBehaviour
 
         if (knockbackVelocity.magnitude > 0.01f)
         {
+
             fullMovement += knockbackVelocity * Time.deltaTime;
             knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, knockbackDecayRate * Time.deltaTime);
         }
@@ -51,5 +47,11 @@ public class CharacterPhysics : MonoBehaviour
     public void AddKnockBack(Vector3 direction, float force)
     {
         knockbackVelocity += direction.normalized * force;
+    }
+
+    public void ResetPhysics()
+    {
+        verticalVelocity = 0f;
+        knockbackVelocity = Vector3.zero;
     }
 }

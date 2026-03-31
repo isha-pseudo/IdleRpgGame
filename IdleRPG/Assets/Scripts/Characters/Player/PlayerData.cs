@@ -8,14 +8,14 @@ public class PlayerData : MonoBehaviour
     public float trueSpeed = 0f;
 
 
-    public float walkMultiplier = 0.4f;
+    public float walkMultiplier = 0.3f;
     public float jogMultiplier = 0.90f;
     public float sprintMultiplier = 1.4f;
 
     [Header("Player Attack Stats")]
-    private float baseAttackDamage = 1f;
+    private float baseAttackDamage = 0f;
     public float trueAttackDamage = 0f;
-    private float baseAttackForce = 1f;
+    private float baseAttackForce = 3f;
     public float trueAttackForce = 0f;
 
     private void Start()
@@ -24,6 +24,11 @@ public class PlayerData : MonoBehaviour
 
         trueAttackDamage = baseAttackDamage;
         trueAttackForce = baseAttackForce;
+    }
+
+    public void AddExp(float amount)
+    {
+        Debug.Log("player gained "+ amount +" EXP!");
     }
 
 }
